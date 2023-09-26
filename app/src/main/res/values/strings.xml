@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Carros Eletricos</string>
+    <string name="eletric_car">Eletric Car</string>
+    <string name="carros">Carros</string>
+    <string name="favoritos">Favoritos</string>
+    <string name="preco">Preço</string>
+    <string name="bateria">Bateria</string>
+    <string name="potencia">Potência</string>
+    <string name="recarga">Recarga</string>
+    <string name="preco_kwh">Preço Kwh</string>
+    <string name="km_percorrido">Km Percorrido</string>
+    <string name="button_calcular">Calcular</string>
+    <string name="rb_mopa">Mopa</string>
+    <string name="rb_meuca">Meuca</string>
+    <string name="cb_mopa">Mopa</string>
+    <string name="cb_meuca">Meuca</string>
+</resources>
