@@ -44,6 +44,7 @@
         android:layout_width="200dp"
         android:layout_height="100dp"
         android:layout_marginTop="16dp"
+        android:visibility="gone"
         android:src="@drawable/car1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_tab_carros" />
@@ -196,6 +197,22 @@
         app:layout_constraintTop_toBottomOf="@id/cb_item_1">
 
     </CheckBox>
+
+    <Switch
+        android:id="@+id/s_lampada"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/cb_item_2"
+        app:layout_constraintStart_toStartOf="@id/cb_item_2"
+        android:text="Ligar lâmpada?"/>
+
+    <Spinner
+        android:id="@+id/s_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:entries="@array/array_cidades"
+        app:layout_constraintTop_toBottomOf="@+id/s_lampada"
+        app:layout_constraintStart_toStartOf="@+id/s_lampada"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,4 +14,11 @@
     <string name="rb_meuca">Meuca</string>
     <string name="cb_mopa">Mopa</string>
     <string name="cb_meuca">Meuca</string>
+    
+    <string-array name="array_cidades">
+        <item>Itaquaquecetuba</item>
+        <item>São Paulo</item>
+        <item>Votorantim</item>
+    </string-array>
+
 </resources>
