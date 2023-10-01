@@ -1,4 +1,4 @@
-package com.example.carroseletricos.presentation
+package com.example.carroseletricos.ui
 
 import android.os.Bundle
 import android.util.Log
