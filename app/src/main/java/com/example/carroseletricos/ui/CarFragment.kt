@@ -44,19 +44,13 @@ class CarFragment : Fragment() {
     lateinit var carsApi: CarsApi
     var carrosArray: ArrayList<Carro> = ArrayList()
 
-    override fun onCreateView(                                                                      // view sendo criada
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.car_fragment, container, false)
     }
 
-    override fun onViewCreated(
-        view: View,
-        savedInstanceState: Bundle?
-    ) {
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         setupRetrofit()
         setupView(view)
         setupListeners()
@@ -91,19 +85,16 @@ class CarFragment : Fragment() {
                     response.body()?.let {
                         setupList(it)
                     }
-                } else {
+                }   else {
                     Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG).show()
-                }
+                    }
             }
-        } )
 
-
+            override fun onFailure(call: Call<List<Carro>>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
         }
-
-        override fun onFailure(call: Call<List<Carro>>, t: Throwable) {
-            Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG).show()
-        }
-
+        )
     }
 
     fun emptyState() {
