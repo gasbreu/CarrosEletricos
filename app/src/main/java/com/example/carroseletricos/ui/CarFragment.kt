@@ -1,5 +1,6 @@
 package com.example.carroseletricos.ui
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.ConnectivityManager
@@ -20,6 +21,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.example.carroseletricos.R
 import com.example.carroseletricos.data.CarsApi
+import com.example.carroseletricos.data.local.CarRepository
+import com.example.carroseletricos.data.local.CarrosContract
+import com.example.carroseletricos.data.local.CarrosContract.CarEntry.TABLE_NAME
+import com.example.carroseletricos.data.local.CarsDbHelper
 import com.example.carroseletricos.domain.Carro
 import com.example.carroseletricos.ui.adapter.CarAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -44,7 +49,11 @@ class CarFragment : Fragment() {
     lateinit var carsApi: CarsApi
     var carrosArray: ArrayList<Carro> = ArrayList()
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         return inflater.inflate(R.layout.car_fragment, container, false)
     }
 
@@ -61,9 +70,9 @@ class CarFragment : Fragment() {
 
         if (checkForInternet(context)) {
             getAllCars()
-        }   else {
+        } else {
             emptyState()
-            }
+        }
     }
 
     fun setupRetrofit() {
@@ -85,13 +94,13 @@ class CarFragment : Fragment() {
                     response.body()?.let {
                         setupList(it)
                     }
-                }   else {
+                } else {
                     Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG).show()
-                    }
+                }
             }
 
             override fun onFailure(call: Call<List<Carro>>, t: Throwable) {
-                TODO("Not yet implemented")
+                Toast.makeText(context, R.string.response_error, Toast.LENGTH_LONG).show()
             }
         }
         )
@@ -116,19 +125,18 @@ class CarFragment : Fragment() {
     }
 
     fun setupList(lista: List<Carro>) {
-        val adapter = CarAdapter(carrosArray)
+        val carroAdapter = CarAdapter(lista)
         listaCarros.isVisible = true
-        listaCarros.adapter = adapter
+        listaCarros.adapter = carroAdapter
+        carroAdapter.carItemLister = { carro ->
+            val isSaved = CarRepository(requireContext()).findCarById(carro.id)
+        }
     }
 
     fun setupListeners() {
         fabCalcular.setOnClickListener {
             startActivity(Intent(context, CalcularAutonomiaActivity::class.java))
         }
-    }
-
-    fun callService() {
-        MyTask().execute("https://igorbag.github.io/cars-api/cars.json")
     }
 
     fun checkForInternet(context: Context?): Boolean {
@@ -150,85 +158,6 @@ class CarFragment : Fragment() {
             @Suppress("DEPRECATION")
             return networkInfo.isConnected
         }
-    }
-
-    inner class MyTask : AsyncTask<String, String, String>() {
-
-        override fun onPreExecute() {
-            super.onPreExecute()
-            progress.visibility = View.VISIBLE
-            Log.d("MyTask", "Iniciando...")
-        }
-
-        override fun doInBackground(vararg url: String?): String {
-            var urlConnection: HttpURLConnection? = null
-
-            try {
-                val urlBase = URL(url[0])
-
-                urlConnection = urlBase.openConnection() as HttpURLConnection
-                urlConnection.connectTimeout = 60000
-                urlConnection.readTimeout = 60000
-                urlConnection.setRequestProperty(
-                    "Accept",
-                    "application/json"
-                )
-
-                val responseCode = urlConnection.responseCode
-                if (responseCode == HttpURLConnection.HTTP_OK) {
-                    var inString = urlConnection.inputStream.bufferedReader().use { it.readText() }
-                    publishProgress(inString)
-                } else {
-                    Log.e("Erro", "Serviço indisponível no momento")
-                }
-
-            } catch (ex: Exception) {
-
-            } finally {
-                urlConnection?.disconnect()
-            }
-
-            return ""
-        }
-
-        override fun onProgressUpdate(vararg values: String?) {
-            try {
-                val jsonArray = JSONTokener(values[0]).nextValue() as JSONArray
-
-                for (i in 0 until jsonArray.length()) {
-
-                    val id = jsonArray.getJSONObject(i).getString("id")
-                    Log.d("id", id)
-                    val preco = jsonArray.getJSONObject(i).getString("preco")
-                    Log.d("preco", preco)
-                    val bateria = jsonArray.getJSONObject(i).getString("bateria")
-                    Log.d("bateria", bateria)
-                    val potencia = jsonArray.getJSONObject(i).getString("potencia")
-                    Log.d("potencia", potencia)
-                    val recarga = jsonArray.getJSONObject(i).getString("recarga")
-                    Log.d("recarga", recarga)
-                    val urlPhoto = jsonArray.getJSONObject(i).getString("urlPhoto")
-                    Log.d("urlPhoto", urlPhoto)
-
-                    val model = Carro(
-                        id = id.toInt(),
-                        preco = preco,
-                        bateria = bateria,
-                        potencia = potencia,
-                        recarga = recarga,
-                        urlPhoto = urlPhoto
-                    )
-                    carrosArray.add(model)
-                }
-                progress.isVisible = false
-                noInternetImage.isVisible = false
-                noInternetText.isVisible = false
-                // setupList()
-            } catch (ex: Exception) {
-                Log.e("Errp ->", ex.message.toString())
-            }
-        }
-
     }
 
 }

@@ -15,6 +15,7 @@
     <string name="cb_mopa">Mopa</string>
     <string name="cb_meuca">Meuca</string>
     <string name="response_error">Internet não disponível</string>
+    <string name="saved_calc">saved_calc</string>
 
     <string-array name="array_cidades">
         <item>Itaquaquecetuba</item>

@@ -1,5 +1,6 @@
 package com.example.carroseletricos.ui
 
+import android.content.Context
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -14,7 +15,7 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
     lateinit var btnCalcular: Button
     lateinit var kmPercorrido: EditText
     lateinit var resultado: TextView
-    lateinit var preço: EditText
+    lateinit var preco: EditText
     lateinit var back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +23,17 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
         setContentView(R.layout.activity_calcular_autonomia)
         setupView()
         setupListeners()
+        setupCachedResult()
+    }
+
+    private fun setupCachedResult() {
+        val valorCalculado = getSharedPref()
+        resultado.text = valorCalculado.toString()
     }
 
     fun setupView() {
         btnCalcular = findViewById(R.id.btn_calcular)
-        preço = findViewById(R.id.et_preco_kwh)
+        preco = findViewById(R.id.et_preco_kwh)
         kmPercorrido = findViewById(R.id.et_km_percorrido)
         resultado = findViewById(R.id.tv_resultado)
         back = findViewById(R.id.im_back)
@@ -46,10 +53,26 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
     }
 
     fun calcular() {
-        val preco = preço.text.toString().toFloat()
+        val preco = preco.text.toString().toFloat()
         val km = kmPercorrido.text.toString().toFloat()
         val result = preco /km
         resultado.text = result.toString()
+        saveSharedPref(result)
         Log.d("resultado ->", result.toString())
     }
+
+    fun saveSharedPref(resultado: Float) {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+        with(sharedPref.edit()) {
+            putFloat(getString(R.string.saved_calc), resultado)
+            apply()
+        }
+    }
+
+    fun getSharedPref() : Float {
+        val sharedPref = getPreferences(Context.MODE_PRIVATE)
+        return sharedPref.getFloat(getString(R.string.saved_calc), 0.0f)
+
+    }
+
 }

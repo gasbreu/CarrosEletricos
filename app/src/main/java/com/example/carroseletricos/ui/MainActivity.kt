@@ -8,8 +8,6 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.carroseletricos.R
-import com.example.carroseletricos.data.CarFactory
-import com.example.carroseletricos.ui.adapter.CarAdapter
 import com.example.carroseletricos.ui.adapter.TabAdapter
 import com.google.android.material.tabs.TabLayout
 
