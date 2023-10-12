@@ -6,9 +6,10 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.carroseletricos.ui.CarFragment
 import com.example.carroseletricos.ui.FavoriteFragment
 
-class TabAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {
+class TabAdapter(fragmentActivity: FragmentActivity) : FragmentStateAdapter(fragmentActivity) {     //
     override fun createFragment(position: Int): Fragment {
         return when (position) {
+
             0 -> CarFragment()
             1 -> FavoriteFragment()
             else -> CarFragment()

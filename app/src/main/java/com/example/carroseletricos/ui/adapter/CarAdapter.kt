@@ -9,17 +9,19 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.carroseletricos.R
 import com.example.carroseletricos.domain.Carro
 
-class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdapter.ViewHolder>() {
+class CarAdapter(private val carros: List<Carro>, private val isFavoriteScreen: Boolean = false) :
+    RecyclerView.Adapter<CarAdapter.ViewHolder>() {
 
-    var carItemLister : (Carro) -> Unit = {}
+    var carItemLister: (Carro) -> Unit = {}
 
-    class ViewHolder (view: View): RecyclerView.ViewHolder(view) {
-        val preco : TextView
-        val bateria : TextView
-        val potencia : TextView
-        val recarga : TextView
-        val urlPhoto : ImageView
-        val favorite : ImageView
+    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+        val preco: TextView
+        val bateria: TextView
+        val potencia: TextView
+        val recarga: TextView
+        val urlPhoto: ImageView
+        val favorite: ImageView
+
         init {
             view.apply {                                                                    // Para não ter que repetir o view.find...
                 preco = findViewById(R.id.tv_preço_value)
@@ -47,7 +49,12 @@ class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdap
         holder.bateria.text = carros[position].bateria
         holder.potencia.text = carros[position].potencia
         holder.recarga.text = carros[position].recarga
-        holder.favorite.setOnClickListener{
+
+        if (isFavoriteScreen) {
+            holder.favorite.setImageResource(R.drawable.ic_star_selected)
+        }
+
+        holder.favorite.setOnClickListener {
             val carro = carros[position]
             carItemLister(carro)
             setupFavorite(carro, holder)
@@ -55,6 +62,7 @@ class CarAdapter(private val carros: List<Carro>) : RecyclerView.Adapter<CarAdap
     }
 
     private fun setupFavorite(carro: Carro, holder: ViewHolder) {
+
         carro.isFavorite = !carro.isFavorite
         if (carro.isFavorite) {
             holder.favorite.setImageResource(R.drawable.ic_star_selected)
