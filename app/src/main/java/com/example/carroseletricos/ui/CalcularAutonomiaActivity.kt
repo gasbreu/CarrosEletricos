@@ -12,11 +12,11 @@ import com.example.carroseletricos.R
 
 class CalcularAutonomiaActivity : AppCompatActivity() {
 
-    lateinit var btnCalcular: Button
-    lateinit var kmPercorrido: EditText
-    lateinit var resultado: TextView
-    lateinit var preco: EditText
-    lateinit var back: ImageView
+    private lateinit var btnCalcular: Button
+    private lateinit var kmPercorrido: EditText
+    private lateinit var resultado: TextView
+    private lateinit var preco: EditText
+    private lateinit var back: ImageView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,7 +32,7 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
         resultado.text = valorCalculado.toString()
     }
 
-    fun setupView() {
+    private fun setupView() {
         btnCalcular = findViewById(R.id.btn_calcular)
         preco = findViewById(R.id.et_preco_kwh)
         kmPercorrido = findViewById(R.id.et_km_percorrido)
@@ -41,7 +41,7 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
 
     }
 
-    fun setupListeners() {
+    private fun setupListeners() {
         btnCalcular.setOnClickListener {
             calcular()
         }
@@ -53,7 +53,7 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
 
     }
 
-    fun calcular() {
+    private fun calcular() {
         val preco = preco.text.toString().toFloat()
         val km = kmPercorrido.text.toString().toFloat()
         val result = preco /km
@@ -62,7 +62,7 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
         Log.d("resultado ->", result.toString())
     }
 
-    fun saveSharedPref(resultado: Float) {
+    private fun saveSharedPref(resultado: Float) {
         val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
         with(sharedPref.edit()) {
             putFloat(getString(R.string.saved_calc), resultado)
@@ -70,7 +70,7 @@ class CalcularAutonomiaActivity : AppCompatActivity() {
         }
     }
 
-    fun getSharedPref() : Float {
+    private fun getSharedPref() : Float {
         val sharedPref = getPreferences(Context.MODE_PRIVATE)
         return sharedPref.getFloat(getString(R.string.saved_calc), 0.0f)
 

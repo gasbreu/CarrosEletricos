@@ -1,7 +1,6 @@
 package com.example.carroseletricos.ui
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,9 +12,9 @@ import com.example.carroseletricos.data.local.CarRepository
 import com.example.carroseletricos.domain.Carro
 import com.example.carroseletricos.ui.adapter.CarAdapter
 
-class FavoriteFragment : Fragment() {
+class FavoriteFragment : Fragment() {                                                               // É criada a classe e definido seu tipo Fragment.
 
-    lateinit var listaCarrosFavorite: RecyclerView
+    private lateinit var listaCarrosFavorite: RecyclerView                                          // É criada uma variável lateinit do tipo RecycleView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -31,26 +30,23 @@ class FavoriteFragment : Fragment() {
         setupList()
     }
 
-    fun setupList() {
+    private fun setupList() {
         val cars = getCarsOnLocalDb()
         val carroAdapter = CarAdapter(cars, isFavoriteScreen = true)
         listaCarrosFavorite.isVisible = true
         listaCarrosFavorite.adapter = carroAdapter
         carroAdapter.carItemLister = { carro ->
-           // val isSaved = CarRepository(requireContext()).saveIfNotExist(carro)
+           val isSaved = CarRepository(requireContext()).saveIfNotExist(carro)
         }
     }
 
-    private fun getCarsOnLocalDb(): List<Carro> {
+    fun getCarsOnLocalDb(): List<Carro> {
         val repository = CarRepository(requireContext())
-        val carList = repository.getAll()
-        return carList
+        return repository.getAll()
     }
 
     fun setupView(view: View) {
-        view.apply {
-            listaCarrosFavorite = findViewById(R.id.lv_lista_carro_favorite)
-        }
+            listaCarrosFavorite = view.findViewById(R.id.lv_lista_carro_favorite)
 
     }
 

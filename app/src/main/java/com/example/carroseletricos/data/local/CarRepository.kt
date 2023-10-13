@@ -14,7 +14,7 @@ import com.example.carroseletricos.domain.Carro
 
 class CarRepository(private val context: Context) {
 
-    fun save(carro: Carro): Boolean {
+    private fun save(carro: Carro): Boolean {
 
         var isSaved = false
 
@@ -38,7 +38,7 @@ class CarRepository(private val context: Context) {
 
         } catch (ex: Exception) {
             ex.message?.let {
-                android.util.Log.e("Erro ao inserir os dados", it)
+                Log.e("Erro ao inserir os dados", it)
             }
         }
 
@@ -46,6 +46,7 @@ class CarRepository(private val context: Context) {
     }
 
     fun findCarById(id : Int) : Carro {
+
         val dbHelper = CarsDbHelper(context)
 
         val db = dbHelper.readableDatabase
@@ -74,20 +75,20 @@ class CarRepository(private val context: Context) {
             null,
             null)
 
-            with(cursor) {
+        val itemId : Long = 0
+        val preco = ""
+        val bateria = ""
+        val potencia = ""
+        val recarga = ""
+        val urlPhoto = ""
 
-                var itemId : Long = 0
-                var preco : String = ""
-                var bateria : String = ""
-                var potencia : String = ""
-                var recarga : String = ""
-                var urlPhoto : String = ""
+            with(cursor) {
 
                 while (moveToNext()) {
                     val itemId = getLong(getColumnIndexOrThrow(BaseColumns._ID))
                     Log.d("ID ->", itemId.toString())
 
-                    val preco = getString(getColumnIndexOrThrow(CarrosContract.CarEntry.COLUMN_NAME_PRECO))
+                    val preco = getString(getColumnIndexOrThrow(COLUMN_NAME_PRECO))
                     Log.d("preco ->", preco.toString())
 
                     val bateria = getString(getColumnIndexOrThrow(COLUMN_NAME_BATERIA))
@@ -115,13 +116,6 @@ class CarRepository(private val context: Context) {
             }
 
         }
-
-    fun saveIfNotExist(carro: Carro) {
-        val car = findCarById(carro.id)
-        if (car.id == ID_WHEN_NO_CAR) {
-            save(carro)
-        }
-    }
 
     fun getAll(): List<Carro> {
         val dbHelper = CarsDbHelper(context)
@@ -184,6 +178,14 @@ class CarRepository(private val context: Context) {
         cursor.close()
         return carros
     }
+
+    fun saveIfNotExist(carro: Carro) {
+        val car = findCarById(carro.id)
+        if (car.id == ID_WHEN_NO_CAR) {
+            save(carro)
+        }
+    }
+
 
     companion object {
         const val ID_WHEN_NO_CAR = 0

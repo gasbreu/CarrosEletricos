@@ -3,11 +3,10 @@ package com.example.carroseletricos.data.local
 import android.content.Context
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
-import com.example.carroseletricos.data.local.CarrosContract.DATABASE_NAME
 import com.example.carroseletricos.data.local.CarrosContract.SQL_DELETE_ENTRIES
 import com.example.carroseletricos.data.local.CarrosContract.TABLE_CAR
 
-class CarsDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, null, DATABASE_VERSION) {
+class CarsDbHelper(context: Context) : SQLiteOpenHelper(context, CarrosContract.DATABASE_NAME, null, DATABASE_VERSION) {
 
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -25,7 +24,6 @@ class CarsDbHelper(context: Context) : SQLiteOpenHelper(context, DATABASE_NAME, 
 
     companion object {
         const val DATABASE_VERSION = 1
-        const val DATABASE_NAME = "DbCar.db"
 
     }
 }

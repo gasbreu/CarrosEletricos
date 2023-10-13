@@ -1,11 +1,7 @@
 package com.example.carroseletricos.ui
 
-import android.content.Intent
 import android.os.Bundle
-
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.carroseletricos.R
 import com.example.carroseletricos.ui.adapter.TabAdapter
@@ -25,13 +21,13 @@ class MainActivity : AppCompatActivity() {                                      
         setupTabs()                                                                                 // São chamados os métodos que criei.
     }
 
-    fun setupView(){                                                                                // É definido o que será exibido na tela.
+    private fun setupView(){                                                                        // É definido o que será exibido na tela.
         tabLayout = findViewById(R.id.tab_layout)
         viewPager = findViewById(R.id.vp_view_pager)                                                // São referenciados os conteúdos XML que serão propriamente exibidos.
     }
 
 
-    fun setupTabs() {                                                                               // São definidas as funções execidas pela Tab.
+    private fun setupTabs() {                                                                       // São definidas as funções execidas pela Tab.
 
         val tabsAdapter = TabAdapter(this)                                              // É criada a variável que receberá as informações de TabAdapter.
 
